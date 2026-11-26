@@ -13,7 +13,7 @@ class RegisterStore extends RegisterTenant
 {
     public static function getLabel(): string
     {
-        return 'Create store';
+        return 'Criar Loja';
     }
 
     public function form(Schema $schema): Schema
@@ -25,6 +25,7 @@ class RegisterStore extends RegisterTenant
                 ->maxLength(255),
 
             Select::make('currency')
+                ->label('Moeda')
                 ->options([
                     'BRL' => 'BRL',
                     'USD' => 'USD',

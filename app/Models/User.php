@@ -74,7 +74,6 @@ class User extends Authenticatable implements FilamentUser, HasTenants
     {
         return $this->stores()
             ->wherePivot('status', 'active')
-            ->where('stores.status', 'active')
             ->get();
     }
 
@@ -83,7 +82,6 @@ class User extends Authenticatable implements FilamentUser, HasTenants
         return $this->stores()
             ->whereKey($tenant->getKey())
             ->wherePivot('status', 'active')
-            ->where('stores.status', 'active')
             ->exists();
     }
 }
