@@ -20,6 +20,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Models\Store;
 use App\Filament\Store\Pages\RegisterStore;
+use App\Filament\Store\Pages\EditStoreConfig;
 
 class StorePanelProvider extends PanelProvider
 {
@@ -31,6 +32,7 @@ class StorePanelProvider extends PanelProvider
             ->login()
             ->tenant(Store::class)
             ->tenantRegistration(RegisterStore::class)
+            ->tenantProfile(EditStoreConfig::class)
             ->colors([
                 'primary' => Color::Green,
             ])
