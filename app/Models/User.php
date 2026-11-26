@@ -7,8 +7,14 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Filament\Models\Contracts\FilamentUser;
+use Filament\Models\Contracts\HasTenants;
+use Filament\Panel;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Collection;
 
-class User extends Authenticatable
+class User extends Authenticatable implements FilamentUser, HasTenants
 {
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
@@ -45,5 +51,37 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function stores(): BelongsToMany
+    {
+        return $this->belongsToMany(
+            Store::class,
+            'store_users',
+            'user_id',
+            'store_id',
+        )
+            ->withPivot(['role', 'status'])
+            ->withTimestamps();
+    }
+
+    public function canAccessPanel(Panel $panel): bool
+    {
+        return $panel->getId() === 'store';
+    }
+
+    public function getTenants(Panel $panel): Collection
+    {
+        return $this->stores()
+            ->wherePivot('status', 'active')
+            ->get();
+    }
+
+    public function canAccessTenant(Model $tenant): bool
+    {
+        return $this->stores()
+            ->whereKey($tenant->getKey())
+            ->wherePivot('status', 'active')
+            ->exists();
     }
 }
