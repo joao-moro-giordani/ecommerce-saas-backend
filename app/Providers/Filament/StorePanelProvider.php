@@ -18,6 +18,8 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use App\Models\Store;
+use App\Filament\Store\Pages\RegisterStore;
 
 class StorePanelProvider extends PanelProvider
 {
@@ -27,6 +29,8 @@ class StorePanelProvider extends PanelProvider
             ->id('store')
             ->path('store-admin')
             ->login()
+            ->tenant(Store::class)
+            ->tenantRegistration(RegisterStore::class)
             ->colors([
                 'primary' => Color::Green,
             ])
