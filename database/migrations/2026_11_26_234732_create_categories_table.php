@@ -21,7 +21,6 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->unique(['id', 'store_id']);
-            $table->unique(['store_id', 'slug']);
             $table->index(['store_id', 'parent_id']);
 
             $table->foreign(['parent_id', 'store_id'])
