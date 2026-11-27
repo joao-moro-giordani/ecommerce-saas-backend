@@ -16,5 +16,5 @@ API/Backend do projeto de e-commerce da escola feito em **Laravel**.
 ---
 
 ## 🛠️ Tecnologias
-* PHP / Laravel
+* PHP / Laravel / Filament
 * MySQL
